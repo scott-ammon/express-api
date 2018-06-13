@@ -1,0 +1,14 @@
+[
+  {
+    "instrument": "snare",
+    "size": 14
+  },
+  {
+    "instrument": "kick",
+    "size": 22
+  },
+  {
+    "instrument": "tom",
+    "size": 12
+  },
+]
