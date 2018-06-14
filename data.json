@@ -1,14 +1,1 @@
-[
-  {
-    "instrument": "snare",
-    "size": 14
-  },
-  {
-    "instrument": "kick",
-    "size": 22
-  },
-  {
-    "instrument": "tom",
-    "size": 12
-  },
-]
+[{"instrument":"tom","size":12},{"instrument":"tom","size":"16"},{"instrument":"conga","size":10},{"instrument":"bongo","size":6},{"instrument":"popcorn-snare","size":14},{"instrument":"tom","size":"16"},{"instrument":"snare","size":"14"}]
