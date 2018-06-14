@@ -34,7 +34,7 @@ app.get('/drums/:id', function(req, res) {
   var drumData = fs.readFileSync('./data.json');
   if(id < drumData.length) {
     drumData = JSON.parse(drumData);
-    res.json({instrument: drumData[id].instrument, size: drumData[id].size});
+    res.json(drumData[id]);
   } else {
     res.json("That drum index doesn't exist! Try again!");
   }
