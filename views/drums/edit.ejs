@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<title>Edit Page</title>
+</head>
+<body>
+  <h1>Edit a specific drum:</h1>
+  <form method="POST" action='/drums/<%= id %>'>
+  	<input type="text" name="instrument" value="<%= drum.instrument %>"><br>
+  	<input type="text" name="size" value="<%= drum.size %>"><br>
+  	<input type="submit" value="Edit Drum">
+  </form>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>
