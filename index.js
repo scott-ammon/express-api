@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var bp = require('body-parser');
+const Drum = require('./models/drum');
 // var ejsLayouts = require('express-ejs-layouts');
 var app = express();
 
@@ -11,12 +12,16 @@ app.use(express.static(path.join(__dirname, "static")));
 app.use(bp.urlencoded({extended: true}));
 // app.use(ejsLayouts);
 
+// Mongoose stuff
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/express-api');
+
 // GET /drums - returns all drums
 app.get('/drums', function(req, res) {
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  // this is a way to send straight json data back to the front
-  res.render("drums/index", {drums: drumData});
+  Drum.find({}, function(err, drums) {
+    console.log(drums);
+    res.render("drums/index", {drums: drums});
+  });
 });
 
 // GET /drums/new - return the form for adding a drum (CREATE)
@@ -26,59 +31,51 @@ app.get('/drums/new', function(req, res) {
 
 // POST /drums - adds a new drum
 app.post('/drums', function(req, res) {
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  drumData.push({instrument: req.body.instrument, size: req.body.size});
-  fs.writeFileSync('./data.json', JSON.stringify(drumData));
+  Drum.create({
+    instrument: req.body.instrument,
+    size: req.body.size
+  }, function(err, drum) {
+    console.log("drum created is: ", drum);
+    console.log("error is: ", err);
+  });
   res.redirect("/drums");
 });
 
 // GET /drums - returns specific drum
 app.get('/drums/:id', function(req, res) {
-  var id = req.params.id;
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  if(id < drumData.length) {
-    res.render("drums/show", {drum: drumData[id]});
-  } else {
-    res.send("That drum index doesn't exist! Try again!");
-  }
+  Drum.findById(req.params.id, function(err, drum) {
+    console.log(drum);
+    console.log(err);
+    res.render("drums/show", {drum: drum});
+  });
 });
 
 // GET /drums/:id/edit - edit a specific drum
 app.get('/drums/:id/edit', function(req, res) {
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  res.render("drums/edit", {drum: drumData[req.params.id], id: req.params.id});
+  Drum.findById(req.params.id, function(err, drum) {
+    console.log(drum);
+    console.log(err);
+    res.render("drums/edit", {drum: drum});
+  });
 });
 
 // PUT /drums - update a specific drum item
 app.put('/drums/:id', function(req, res) {
-  var id = req.params.id;
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  if(id < drumData.length) {
-    drumData[id].instrument = req.body.instrument;
-    drumData[id].size = req.body.size;
-    fs.writeFileSync('./data.json', JSON.stringify(drumData));
-    res.json(drumData);
-  } else {
-    res.send("That drum index doesn't exist! Try again!");
-  }
+  Drum.update({_id: req.params.id},{
+    instrument: req.body.instrument,
+    size: req.body.size
+  }, function(err, drum) {
+    console.log(drum);  
+    res.json(drum);
+  });
 });
 
 // DELETE /drums - delete a specific drum
 app.delete('/drums/:id', function(req, res) {
-  var id = req.params.id;
-  var drumData = fs.readFileSync('./data.json');
-  drumData = JSON.parse(drumData);
-  if(id < drumData.length) { 
-    drumData.splice(id, 1);
-    fs.writeFileSync('./data.json', JSON.stringify(drumData));
-    res.json(drumData);
-  } else {
-    res.send("You can't delete a drum that doesn't exist! Try again!");
-  }
+  Drum.remove({_id: req.params.id}, function(err) {
+    console.log(err);
+  });
+  res.json("deleted!");
 });
 
 app.listen(3000);

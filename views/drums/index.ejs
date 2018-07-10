@@ -7,7 +7,7 @@
   <h1>All the drums:</h1>
   <ul>
     <% drums.forEach(function(drum, i) { %>
-    	<li><%= drum.instrument %> is <%= drum.size %> in.<a class="anchor" href="/drums/<%= i %>">Delete</a></li>
+    	<li><%= drum.instrument %> is <%= drum.size %> in.</li><a class="anchor" href="/drums/<%= drum._id %>">Delete</a></li>
     <% }); %>
   </ul>
    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

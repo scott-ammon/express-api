@@ -5,7 +5,7 @@
 </head>
 <body>
   <h1>Edit a specific drum:</h1>
-  <form method="POST" action='/drums/<%= id %>'>
+  <form method="POST" action='/drums/<%= drum._id %>'>
   	<input type="text" name="instrument" value="<%= drum.instrument %>"><br>
   	<input type="text" name="size" value="<%= drum.size %>"><br>
   	<input type="submit" value="Edit Drum">
